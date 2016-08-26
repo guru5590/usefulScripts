@@ -1,0 +1,19 @@
+---
+
+# ansible-playbook test.yml -i "localhost," -c local
+
+- hosts: localhost
+
+  vars:
+    container_count: 3
+    start_port: 6000
+    end_port: "{{ start_port + container_count }}"
+
+  tasks:
+  - docker:
+      name: "nginx-{{ item }}"
+      image: nginx:latest
+      state: reloaded
+      ports:
+      - "{{ item }}:80"
+    with_sequence: start={{ start_port }} end={{ end_port }} stride=1
