@@ -1,0 +1,6 @@
+-spark_master_nodes: > 
+-  {% set colon = joiner(":") -%}
+-  {% set comma = joiner(",") -%}
+-  {% for host in groups['spark-master'] -%}
+-    {%- if not loop.last -%}{{ colon() -}}{%- endif -%}{{ comma() -}}{{ hostvars[host].ansible_hostname -}}{{ colon() -}}{{ spark_master_port -}}
+-  {% endfor -%}
